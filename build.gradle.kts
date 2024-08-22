@@ -1,4 +1,5 @@
 repositories {
+    maven { url = uri("https://repo.repsy.io/mvn/chrynan/public") }
     mavenCentral()
 }
 
