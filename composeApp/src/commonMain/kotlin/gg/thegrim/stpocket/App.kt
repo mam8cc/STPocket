@@ -39,7 +39,17 @@ fun App() {
 
 
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            var showPlayerCountError by remember { mutableStateOf(false) }
             var numberOfPlayers by remember { mutableStateOf("") }
+            val count = numberOfPlayers.toIntOrNull() ?: 0
+
+            var playerNames by remember { mutableStateOf("") }
+
+            if (showPlayerCountError) {
+                Column(modifier = Modifier.padding(8.dp).background(Color.Red)) {
+                    Text(text = "BotC only supports up to 20 players.", style = MaterialTheme.typography.h6)
+                }
+            }
 
             TextField(
                 value = numberOfPlayers,
@@ -53,13 +63,21 @@ fun App() {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            for (i in numberOfPlayers) {
-                TextField(
-
-                )
+            if (count < 21) {
+                repeat (count) { index ->
+                    TextField(
+                        value = playerNames,
+                        label = { Text(index.toString()) },
+                        modifier = Modifier.fillMaxWidth(),
+                        onValueChange = {}
+                    )
+                }
             }
+            else {
+                showPlayerCountError = true
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             CharacterProvider.getAllCharacters().forEach {
                 val color = when (it.type) {
